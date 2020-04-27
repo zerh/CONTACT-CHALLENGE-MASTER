@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -18,16 +18,19 @@ export class AddressUpdateComponent implements OnInit {
     isSaving: boolean;
 
     people: IPerson[];
+    showPersonInput: boolean;
 
     constructor(
+        protected router: Router,
         protected jhiAlertService: JhiAlertService,
         protected addressService: AddressService,
         protected personService: PersonService,
         protected activatedRoute: ActivatedRoute
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isSaving = false;
+        this.showPersonInput = (localStorage.getItem('fromPersonUpdate') == null);
         this.activatedRoute.data.subscribe(({ address }) => {
             this.address = address;
         });
@@ -46,10 +49,17 @@ export class AddressUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.address.id !== undefined) {
-            this.subscribeToSaveResponse(this.addressService.update(this.address));
+        if (localStorage.getItem('fromPersonUpdate') !== null) {
+            localStorage.setItem('newAddress', JSON.stringify(this.address));
+            localStorage.setItem('editing', 'addressUpdate');
+            localStorage.removeItem('fromPersonUpdate');
+            this.previousState();
         } else {
-            this.subscribeToSaveResponse(this.addressService.create(this.address));
+            if (this.address.id !== undefined) {
+                this.subscribeToSaveResponse(this.addressService.update(this.address));
+            } else {
+                this.subscribeToSaveResponse(this.addressService.create(this.address));
+            }
         }
     }
 

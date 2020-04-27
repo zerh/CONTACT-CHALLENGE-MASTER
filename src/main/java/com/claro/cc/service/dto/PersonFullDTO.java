@@ -15,6 +15,8 @@ import java.util.Set;
  */
 public class PersonFullDTO extends PersonDTO implements Serializable {
 
+    public PersonFullDTO(){}
+
     public PersonFullDTO(Person person) {
         super(person);
     }

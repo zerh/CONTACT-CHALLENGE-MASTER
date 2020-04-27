@@ -16,6 +16,7 @@ export class PersonDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ person }) => {
             this.person = person;
+            console.log(person);
         });
     }
 

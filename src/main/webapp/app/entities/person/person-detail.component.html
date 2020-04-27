@@ -9,7 +9,69 @@
                 <dd>
                     <span>{{person.fullname}}</span>
                 </dd>
+                <dt><span>Document Number</span></dt>
+                <dd>
+                    <span>{{person.documentNumber}}</span>
+                </dd>
+                <dt><span>Document Type</span></dt>
+                <dd>
+                    <span>{{person.documentType}}</span>
+                </dd>
+                <dt><span>Birthday</span></dt>
+                <dd>
+                    <span>{{person.birthday}}</span>
+                </dd>
+                <dt><span>Gender</span></dt>
+                <dd>
+                    <span>{{person.gender}}</span>
+                </dd>
+                <dt><span>User</span></dt>
+                <dd>
+                    <span>{{person.user}}</span>
+                </dd>
             </dl>
+
+            <h4>Addresses</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Neighborhood</th>
+                        <th>Street</th>
+                        <th>Full Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let address of person.addresses">
+                        <td>{{address.type}}</td>
+                        <td>{{address.country}}</td>
+                        <td>{{address.state}}</td>
+                        <td>{{address.city}}</td>
+                        <td>{{address.neighborhood}}</td>
+                        <td>{{address.street}}</td>
+                        <td>{{address.fullAddress}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Person Contacts </h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let personContact of person.personContacts">
+                        <td>{{personContact.type}}</td>
+                        <td>{{personContact.value}}</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <button type="submit"
                     (click)="previousState()"

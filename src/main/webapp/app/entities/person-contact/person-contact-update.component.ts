@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -19,15 +19,20 @@ export class PersonContactUpdateComponent implements OnInit {
 
     people: IPerson[];
 
+    showPersonInput: boolean;
+
     constructor(
+        private router: Router,
         protected jhiAlertService: JhiAlertService,
         protected personContactService: PersonContactService,
         protected personService: PersonService,
         protected activatedRoute: ActivatedRoute
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isSaving = false;
+        this.showPersonInput = (localStorage.getItem('fromPersonUpdate') == null);
+
         this.activatedRoute.data.subscribe(({ personContact }) => {
             this.personContact = personContact;
         });
@@ -46,10 +51,17 @@ export class PersonContactUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.personContact.id !== undefined) {
-            this.subscribeToSaveResponse(this.personContactService.update(this.personContact));
+        if (localStorage.getItem('fromPersonUpdate') !== null) {
+            localStorage.setItem('newPersonContact', JSON.stringify(this.personContact));
+            localStorage.setItem('editing', 'personContactUpdate');
+            this.previousState();
         } else {
-            this.subscribeToSaveResponse(this.personContactService.create(this.personContact));
+            if (this.personContact.id !== undefined) {
+                this.subscribeToSaveResponse(this.personContactService.update(this.personContact));
+            } else {
+                this.subscribeToSaveResponse(this.personContactService.create(this.personContact));
+            }
+
         }
     }
 

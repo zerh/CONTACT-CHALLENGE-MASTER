@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
 
+    testTest = 'hola';
+
     constructor(
         private accountService: AccountService,
         private loginModalService: LoginModalService,

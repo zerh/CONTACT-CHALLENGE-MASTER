@@ -45,7 +45,8 @@ public class PersonDTO implements Serializable {
         this.documentNumber = person.getDocumentNumber();
         this.documentType = person.getDocumentType();
         this.fullname = person.getFullname();
-        this.userId = person.getUser().getId();
+        if(person.getUser()!=null)
+            this.userId = person.getUser().getId();
         this.gender = person.getGender();
     }
 

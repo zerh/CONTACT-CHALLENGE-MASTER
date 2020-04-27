@@ -12,6 +12,7 @@ import { PersonDetailComponent } from './person-detail.component';
 import { PersonUpdateComponent } from './person-update.component';
 import { PersonDeletePopupComponent } from './person-delete-dialog.component';
 import { IPerson } from 'app/shared/model/person.model';
+import { AddressUpdateComponent } from '../address';
 
 @Injectable({ providedIn: 'root' })
 export class PersonResolve implements Resolve<IPerson> {

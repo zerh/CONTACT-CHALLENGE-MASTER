@@ -1,0 +1,164 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <form name="form" role="form" (ngSubmit)="save()">
+            <h2>Create or edit a Person</h2>
+            <div class="form-group">
+                <label class="form-control-label" for="fullName">Full Name</label>
+                <input type="text" class="form-control" id="fullName" [(ngModel)]="person.fullname" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="documentNumber">Document Number</label>
+                <input type="text" class="form-control" id="documentNumber" [(ngModel)]="person.documentNumber"
+                    name="documentNumber" required>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="documentType">Document Type</label>
+
+                <select class="form-control" id="documentType" [(ngModel)]="person.documentType" name="documentType"
+                    required>
+                    <option value="ID">ID</option>
+                    <option value="PASSPORT">PASSPORT</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="birthday">Birthday</label>
+                <input type="date" class="form-control" id="birthday" name="birthday"
+                    (change)="onBirthdayChange($event.target.value)" [(ngModel)]="birthdayDp" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="gender">Gender</label>
+                <select class="form-control" id="gender" [(ngModel)]="person.gender" name="gender" required>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="user">User</label>
+                <select class="form-control" id="user" [(ngModel)]="person.userId" name="user" required>
+                    <option selected value="" disabled>Seleccione un usuario</option>
+                    <option *ngFor="let user of users" [value]="user.id">
+                        {{user.firstName}}
+                    </option>
+                </select>
+            </div>
+
+            <br />
+            <hr />
+            <br />
+
+            <h4>Addresses</h4>
+            <button type="button" class="btn btn-link" (click)="address()">
+                <fa-icon icon="plus" fixedWidth="true"></fa-icon>
+                <span>Add Address</span>
+            </button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Neighborhood</th>
+                        <th>Street</th>
+                        <th>Full Address</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let address of person.addresses">
+                        <td>{{address.type}}</td>
+                        <td>{{address.country}}</td>
+                        <td>{{address.state}}</td>
+                        <td>{{address.city}}</td>
+                        <td>{{address.neighborhood}}</td>
+                        <td>{{address.street}}</td>
+                        <td>{{address.fullAddress}}</td>
+
+                        <td class="text-right" *ngIf="address.id">
+                            <div class="btn-group flex-btn-group-container">
+                                
+                                <button type="button"
+                                        [routerLink]="['/address', address.id, 'edit']"
+                                        class="btn btn-primary btn-sm">
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <span class="d-none d-md-inline">Edit</span>
+                                </button>
+                                
+                            </div>
+                        </td>
+
+                        <td class="text-right" *ngIf="!address.id">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="button"
+                                        (click)="deleteUnpersistedAddress(address)"
+                                        class="btn btn-warning btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Delete Unpersisted</span>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <br />
+
+            <h4>Person Contacts </h4>
+            <button type="button" class="btn btn-link" (click)="personContact()">
+                <fa-icon icon="plus" fixedWidth="true"></fa-icon>
+                <span>Add Person Contact</span>
+            </button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let personContact of person.personContacts">
+                        <td>{{personContact.type}}</td>
+                        <td>{{personContact.value}}</td>
+
+                        <td class="text-right" *ngIf="personContact.id">
+                            <div class="btn-group">
+                                
+                                <button type="button"
+                                        [routerLink]="['/person-contact', personContact.id, 'edit']"
+                                        class="btn btn-primary btn-sm">
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <span class="d-none d-md-inline">Edit</span>
+                                </button>
+                                
+                            </div>
+                        </td>
+
+                        <td class="text-right" *ngIf="!personContact.id">
+                            <div class="btn-group">
+                                <button type="button"
+                                        (click)="deleteUnpersistedPersonContact(personContact)"
+                                        class="btn btn-warning btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Delete Unpersisted</span>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+    <jhi-address></jhi-address>
+</div>
